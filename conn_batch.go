@@ -126,8 +126,9 @@ func (b *batch) Column(idx int) driver.BatchColumn {
 }
 
 func (b *batch) Send() (err error) {
+	sent := false
 	defer func() {
-		b.sent = true
+		b.sent = sent
 		b.release(err)
 	}()
 	if b.sent {
@@ -150,6 +151,7 @@ func (b *batch) Send() (err error) {
 	if err = b.conn.process(b.ctx, b.onProcess); err != nil {
 		return err
 	}
+	sent = true
 	return nil
 }
 

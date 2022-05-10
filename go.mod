@@ -11,6 +11,7 @@ require (
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/shopspring/decimal v1.3.1
 	github.com/stretchr/testify v1.7.1
+	github.com/testcontainers/testcontainers-go v0.13.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.10 // indirect
 	go.opentelemetry.io/otel/trace v1.7.0
 	golang.org/x/sys v0.0.0-20220429233432-b5fbb4746d32 // indirect
