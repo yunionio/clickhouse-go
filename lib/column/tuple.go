@@ -194,7 +194,7 @@ func setJSONFieldValue(field reflect.Value, value reflect.Value) error {
 		field.Set(reflect.ValueOf(fmt.Sprint(value.Interface())))
 		return nil
 	}
-	if value.CanConvert(field.Type()) {
+	if canConvert(value, field.Type()) {
 		field.Set(value.Convert(field.Type()))
 		return nil
 	}
@@ -205,6 +205,23 @@ func setJSONFieldValue(field reflect.Value, value reflect.Value) error {
 		From: value.Type().String(),
 	}
 
+}
+
+func canConvert(v reflect.Value, t reflect.Type) bool {
+	vt := v.Type()
+	if !vt.ConvertibleTo(t) {
+		return false
+	}
+	// Currently the only conversion that is OK in terms of type
+	// but that can panic depending on the value is converting
+	// from slice to pointer-to-array.
+	if vt.Kind() == reflect.Slice && t.Kind() == reflect.Ptr && t.Elem().Kind() == reflect.Array {
+		n := t.Elem().Len()
+		if n > v.Len() {
+			return false
+		}
+	}
+	return true
 }
 
 func getStructFieldValue(field reflect.Value, name string) (reflect.Value, bool) {

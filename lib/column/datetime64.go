@@ -238,7 +238,7 @@ func (col *DateTime64) parseString(value string) (int64, error) {
 		return 0, err
 	}
 	// scale to the appropriate units based on the precision
-	val := tv.UnixMilli() * int64(math.Pow10(col.precision-3))
+	val := int64(float64(tv.UnixNano()) * math.Pow10(col.precision-9))
 	return val, nil
 }
 
