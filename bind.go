@@ -208,9 +208,9 @@ func formatTime(tz *time.Location, scale TimeUnit, value time.Time) (string, err
 		case Seconds:
 			return fmt.Sprintf("toDateTime('%d')", value.Unix()), nil
 		case MilliSeconds:
-			return fmt.Sprintf("toDateTime64('%d', 3)", value.UnixMilli()), nil
+			return fmt.Sprintf("toDateTime64('%d', 3)", value.UnixNano()/1000000), nil
 		case MicroSeconds:
-			return fmt.Sprintf("toDateTime64('%d', 6)", value.UnixMicro()), nil
+			return fmt.Sprintf("toDateTime64('%d', 6)", value.UnixNano()/1000), nil
 		case NanoSeconds:
 			return fmt.Sprintf("toDateTime64('%d', 9)", value.UnixNano()), nil
 		}
